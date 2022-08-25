@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 interface PreviewProps {
-    code: string;
+  code: string;
+  bundlingStatus: string;
 }
 
 const html = `
@@ -11,13 +12,20 @@ const html = `
       <body>
         <div id="root"></div>
         <script>
+        const handleError = (err) => {
+              const root = document.querySelector('#root');
+              root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
+              console.error(err);
+        };
+          window.addEventListener('error', (event) => {
+           handleError(event.error);
+        });
+      
           window.addEventListener('message', (event) => {
             try {
               eval(event.data);
             } catch (err) {
-              const root = document.querySelector('#root');
-              root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
-              console.error(err);
+              handleError(err);
             }
           }, false);
         </script>
@@ -26,25 +34,26 @@ const html = `
   `;
 
 const Preview = (prop: PreviewProps) => {
-    const iframe = useRef<any>();
+  const iframe = useRef<any>();
 
-    useEffect(() => {
-        iframe.current.srcdoc = html;
-        setTimeout(() => {
-            iframe.current.contentWindow.postMessage(prop.code, '*');
-        }, 50);
+  useEffect(() => {
+    iframe.current.srcdoc = html;
+    setTimeout(() => {
+      iframe.current.contentWindow.postMessage(prop.code, '*');
+    }, 50);
 
-    }, [prop.code]);
+  }, [prop.code]);
 
-    return (
-        <div className="preview-wrapper">
-            <iframe
-                title="preview"
-                ref={iframe}
-                sandbox="allow-scripts"
-                srcDoc={html}
-            />
-        </div>
-    );
+  return (
+    <div className="preview-wrapper">
+      <iframe
+        title="preview"
+        ref={iframe}
+        sandbox="allow-scripts"
+        srcDoc={html}
+      />
+      {prop.bundlingStatus && <div className='preview-error'>{prop.bundlingStatus}</div>}
+    </div>
+  );
 };
 export default Preview;

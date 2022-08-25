@@ -7,7 +7,6 @@ import CodeCell from './components/code-cell';
 
 
 const App = () => {
-
     return (
         <div>
             <CodeCell />
