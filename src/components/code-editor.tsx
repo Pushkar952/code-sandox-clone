@@ -28,7 +28,7 @@ const CodeEditor = (props: CodeEditorProps) => {
     // Format the code using prettier
     const onFormatClick = () => {
         const unformatted = editorRef.current.getValue();
-        const formatted = prettier.format(unformatted, { parser: 'babel', plugins: [parser], semi: false, singleQuote: true }).replace(/\n$/, '');
+        const formatted = prettier.format(unformatted, { parser: 'babel', plugins: [parser], semi: true, singleQuote: true }).replace(/\n$/, '');
         editorRef.current.setValue(formatted);
     }
 
