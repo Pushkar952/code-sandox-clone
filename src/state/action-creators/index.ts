@@ -1,5 +1,5 @@
 import { ActionType } from "../action-types";
-import { Action, UpdateCellAction, MoveCellAction, DeleteCellAction, InsertCellBeforeAction , Direction} from "../actions";
+import {  UpdateCellAction, MoveCellAction, DeleteCellAction, InsertCellAfterAction , Direction} from "../actions";
 import { CellTypes } from "../cell";
 
 export const updateCell = (id:string, content:string): UpdateCellAction => { 
@@ -28,9 +28,9 @@ export const moveCell = (id:string, direction:Direction): MoveCellAction => {
         }
     }
 };
-export const insertCellBefore = (id:string, type:CellTypes): InsertCellBeforeAction => { 
+export const insertCellAfter = (id:string| null, type:CellTypes): InsertCellAfterAction => { 
     return {
-        type: ActionType.INSERT_CELL_BEFORE,
+        type: ActionType.INSERT_CELL_AFTER,
         payload: {
             id: id,
             type: type

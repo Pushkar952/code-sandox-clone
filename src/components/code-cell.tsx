@@ -15,9 +15,6 @@ const CodeCell = (props: CodeCellProps) => {
     const [code, setCode] = useState('');
     const [err, seErr] = useState('');
     const { updateCell } = useActions();
-
-
-
     useEffect(() => {
         const timer = setTimeout(async () => {
             const output = await bundle(cell.content);
@@ -33,7 +30,7 @@ const CodeCell = (props: CodeCellProps) => {
 
     return (
         <Resizable direction="vertical">
-            <div style={{ height: '100%', display: 'flex', flexDirection: 'row' }}>
+            <div style={{ height: 'calc(100%-10px)', display: 'flex', flexDirection: 'row' }}>
                 <Resizable direction="horizontal">
                     <CodeEditor
                         initialvalue={cell.content}
